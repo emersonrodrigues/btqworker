@@ -1,0 +1,27 @@
+# FROM rabbitmq
+# # Instala o curl
+# RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# # Define environment variables.
+# ENV RABBITMQ_USER guest
+# ENV RABBITMQ_PASSWORD guest
+# EXPOSE 15672
+# # Copia o init.sh para o container
+# COPY init.sh /init.sh
+# RUN chmod +x /init.sh
+
+# # Executa o RabbitMQ e depois o script init.sh
+# CMD ["sh", "-c", "docker-entrypoint.sh rabbitmq-server & sleep 10 && /init.sh && tail -f /dev/null"]
+
+# Dockerfile na pasta rabbitmq
+
+FROM rabbitmq:3-management
+
+# Instala o curl
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# Copia o init.sh para o container
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+
+# Executa o RabbitMQ normalmente
+CMD ["rabbitmq-server"]
